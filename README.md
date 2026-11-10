@@ -13,4 +13,4 @@ npm run dev
 All text and project data live in `src/data/portfolio.ts`. Replace the resume at `public/assets/Vikas_Gurav_Resume.pdf`.
 
 ## Credits
-Layout idea inspired by a streaming-style portfolio template seen on Instagram [add the creator's name or link if you can find it]. All content, code changes and visual design here are my own.
+Layout idea inspired by a streaming-style portfolio template seen on browser . All content, code changes and visual design here are my own.
