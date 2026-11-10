@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="V gaming emblem">
+<defs>
+ <radialGradient id="bg"><stop stop-color="#260506"/><stop offset="1" stop-color="#020203"/></radialGradient>
+ <linearGradient id="steel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset=".3" stop-color="#bfc2c9"/><stop offset=".62" stop-color="#555963"/><stop offset=".82" stop-color="#f5f5f6"/><stop offset="1" stop-color="#777b84"/></linearGradient>
+ <linearGradient id="red" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ff7777"/><stop offset=".4" stop-color="#ff1722"/><stop offset="1" stop-color="#790008"/></linearGradient>
+ <filter id="glow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect width="512" height="512" rx="72" fill="url(#bg)"/>
+<path d="M256 43C139 43 55 132 55 256s84 213 201 213 201-89 201-213S373 43 256 43Z" fill="none" stroke="url(#red)" stroke-width="7" stroke-dasharray="470 35 110 30" filter="url(#glow)"/>
+<g fill="url(#red)">
+ <path d="M42 278 176 198 105 268 179 241 55 333Z"/><path d="m470 222-116 70 61-61-72 34 113-92Z"/>
+ <path d="m72 389 112-68-58 62 58-29-92 77Z"/><path d="m440 365-109-49 58 51-56-17 88 64Z"/>
+</g>
+<path d="m112 135 93 4 51 167 51-167 93-4-133 276Z" fill="#050609" stroke="#790008" stroke-width="14"/>
+<path d="m119 127 85 5 52 170 52-170 85-5-137 271Z" fill="url(#steel)" stroke="#f21b27" stroke-width="5"/>
+<path d="m204 132 52 170v96l-25-46-53-186Z" fill="#777b84" opacity=".55"/>
+<path d="m308 132-52 170v96l26-46 53-186Z" fill="#fff" opacity=".2"/>
+<path d="m119 127 85 5 52 170 52-170 85-5" fill="none" stroke="#fff" stroke-width="5"/>
+<path d="M256 302v96" stroke="#ff3941" stroke-width="5" filter="url(#glow)"/>
+<path d="m82 111 87 18-51 22Zm348 0-87 18 51 22Z" fill="#ff202a"/>
+</svg>

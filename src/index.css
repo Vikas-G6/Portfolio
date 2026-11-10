@@ -1,0 +1,275 @@
+@import 'tailwindcss';
+@import './styles/tokens.css';
+
+@theme {
+  --color-ink: #0d0d0d;
+  --color-ink-2: #141414;
+  --color-ink-3: #1a1a1a;
+  --color-crimson: #c8a45c;
+  --color-crimson-2: #c8a45c;
+  --color-bone: #ededed;
+  --color-mist: #b0b0b0;
+  --color-smoke: #6e6a60;
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-serif: 'Instrument Serif', Georgia, serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Code', 'Fira Mono', monospace;
+  --ease-cine: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  color-scheme: dark;
+  --gutter: clamp(16px, 4vw, 56px);
+}
+
+html {
+  position: relative;
+  background: var(--bg);
+  -webkit-text-size-adjust: 100%;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.gutter {
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+/* Film grain — a single fixed layer, cheap and subtle */
+.grain {
+  position: fixed;
+  inset: -50%;
+  pointer-events: none;
+  z-index: 90;
+  opacity: 0.055;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 1.2s steps(6) infinite;
+}
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-3%, 2%); }
+  40% { transform: translate(2%, -3%); }
+  60% { transform: translate(-2%, -1%); }
+  80% { transform: translate(3%, 3%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Hide scrollbars on horizontal rails while keeping them scrollable */
+.rail {
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+/* Custom cursor removed; native cursor used. */
+
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(244, 241, 236, 0.28);
+}
+
+.glass {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+}
+
+.focus-ring:focus-visible,
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.light-streak {
+  display: none;
+}
+
+.shimmer-text {
+  color: var(--text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain {
+    animation: none !important;
+  }
+}
+
+/* ─── Design system components ─────────────────────────────────── */
+
+/* Panel — chamfered top-right corner with visible diagonal */
+.panel {
+  position: relative;
+  background: var(--surface);
+  /* Outer border drawn via SVG overlay so the diagonal is continuous */
+  border: none;
+  transition: border-color 0.2s;
+}
+/* SVG border overlay — draws all four sides + diagonal as one path */
+.panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect x='0.5' y='0.5' width='calc(100%25 - 1px)' height='calc(100%25 - 1px)' fill='none' stroke='%232e2e2e' stroke-width='1' /%3E%3C/svg%3E");
+  clip-path: var(--chamfer);
+}
+/* We draw the border with an outline polygon path instead — simpler: use box border + SVG diagonal line */
+
+/* Reset to a cleaner approach: border via outline+clip, diagonal via ::before */
+.panel {
+  border: 1px solid var(--line);
+  clip-path: var(--chamfer);
+  transition: border-color 0.2s;
+}
+.panel::after { display: none; }
+
+/* Diagonal line for the chamfer cut */
+.panel::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  /* 14px cut + 1px border on each side = ~20px hypotenuse */
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+  z-index: 2;
+  background:
+    /* diagonal line from top-right minus 14px down to 14px from left */
+    linear-gradient(
+      135deg,
+      transparent calc(50% - 0.5px),
+      var(--line) calc(50% - 0.5px),
+      var(--line) calc(50% + 0.5px),
+      transparent calc(50% + 0.5px)
+    );
+}
+.panel:hover {
+  border-color: var(--line-strong);
+}
+.panel:hover::before {
+  background:
+    linear-gradient(
+      135deg,
+      transparent calc(50% - 0.5px),
+      var(--line-strong) calc(50% - 0.5px),
+      var(--line-strong) calc(50% + 0.5px),
+      transparent calc(50% + 0.5px)
+    );
+}
+
+/* Buttons */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  background: transparent;
+  border: 1px solid var(--accent);
+  clip-path: var(--chamfer);
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+  position: relative;
+}
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+  z-index: 2;
+  background: linear-gradient(
+    135deg,
+    transparent calc(50% - 0.5px),
+    var(--accent) calc(50% - 0.5px),
+    var(--accent) calc(50% + 0.5px),
+    transparent calc(50% + 0.5px)
+  );
+}
+.btn-primary:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
+.btn-primary:hover::before {
+  background: linear-gradient(
+    135deg,
+    transparent calc(50% - 0.5px),
+    var(--bg) calc(50% - 0.5px),
+    var(--bg) calc(50% + 0.5px),
+    transparent calc(50% + 0.5px)
+  );
+}
+
+.btn-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.18s;
+}
+.btn-text:hover {
+  color: var(--accent);
+}
+
+/* Tags */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  border: 1px solid;
+  text-transform: uppercase;
+}
+.tag--complete { color: var(--muted);  border-color: var(--line-strong); }
+.tag--active   { color: var(--accent); border-color: var(--accent); }
+.tag--planned  { color: var(--muted);  border-color: var(--line); }
+.tag--locked   { color: var(--line-strong); border-color: var(--line); opacity: 0.6; }
+

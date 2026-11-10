@@ -1,0 +1,13 @@
+/* Design tokens — game UI */
+:root {
+  --bg: #0d0d0d;
+  --surface: #141414;
+  --line: #2e2e2e;
+  --line-strong: #4a4a4a;
+  --text: #ededed;
+  --muted: #b0b0b0;   /* raised from #9a9a9a — passes 4.5:1 on #0d0d0d */
+  --accent: #c8a45c;
+
+  /* chamfer: top-right 14px */
+  --chamfer: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+}
